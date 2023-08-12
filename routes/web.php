@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\MainController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,9 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [MainController::class, 'home'])->name('home');
+Route::get('/order/create/{id}', [OrderController::class, 'create'])->name('order.create');
+Route::post('/order/store', [OrderController::class, 'store'])->name('order.store');
+Route::get('/order/{id}', [OrderController::class, 'show'])->name('order.show');
+Route::get('/thanks', [MainController::class, 'thanks'])->name('thanks');
+Route::resource('product', ProductController::class, ['only' => ['show']]);
 
 Auth::routes();
 
