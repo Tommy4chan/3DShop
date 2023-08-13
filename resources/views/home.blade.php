@@ -6,7 +6,7 @@
         @foreach($products as $product)
         <div class="col-lg-3">
             <div class="card">
-                <img src="https://www.anycubic.com/cdn/shop/products/AnycubicKobra_7_1800x1800.jpg?v=1684458780" class="card-img-top" alt="...">
+                <img src="{{Storage::url('images/' . $product->image)}}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">{{$product->title}}</h5>
                     <h4><span class="badge text-bg-success">{{$product->price}} ₴</span></h4>

@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,11 +19,41 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [MainController::class, 'home'])->name('home');
-Route::get('/order/create/{id}', [OrderController::class, 'create'])->name('order.create');
-Route::post('/order/store', [OrderController::class, 'store'])->name('order.store');
-Route::get('/order/{id}', [OrderController::class, 'show'])->name('order.show');
 Route::get('/thanks', [MainController::class, 'thanks'])->name('thanks');
 Route::resource('product', ProductController::class, ['only' => ['show']]);
+
+Route::prefix('order')->group(function () {
+    Route::name('order.')->group(function () {
+
+        Route::controller(OrderController::class)->group(function () {
+            Route::get('/create/{id}', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/{id}', 'show')->name('show');
+        });
+
+    });
+});
+
+Route::prefix('admin')->group(function () {
+    Route::name('admin.')->group(function () {
+        Route::middleware(['is_admin'])->group(function () {
+            Route::get('/', [AdminController::class, 'home'])->name('home');
+
+            Route::prefix('product')->group(function () {
+                Route::name('product.')->group(function () {
+                    Route::controller(ProductController::class)->group(function () {
+                        Route::get('/', 'index')->name('index');
+                        Route::get('/create', 'create')->name('create');
+                        Route::post('/store', 'store')->name('store');
+                        Route::get('/edit/{product}', 'edit')->name('edit');
+                        Route::put('/{product}', 'update')->name('update');
+                        Route::delete('/{product}', 'destroy')->name('destroy');
+                    });
+                });
+            });
+        });
+    });
+});
 
 Auth::routes();
 

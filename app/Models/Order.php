@@ -13,6 +13,14 @@ class Order extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function scopeNew($query){
+        return $query->where('status', 0);
+    }
+
+    public function scopeInProgress($query){
+        return $query->whereBetween('status', [1, 4]);
+    }
+
     public function status()
     {
         switch($this->status){

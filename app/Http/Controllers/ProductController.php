@@ -2,18 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Services\UtilsService;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
+
+    private UtilsService $utilsService;
+ 
+    public function __construct(UtilsService $utilsService)
+    {
+        $this->utilsService = $utilsService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $products = Product::get();
+
+        return view('admin.product.index')->with('products', $products);
     }
 
     /**
@@ -21,15 +34,29 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.product.form');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
+        $fileName = Str::uuid()->toString() . '.' . $request->image->extension();
+        $request->image->storeAs('public/images', $fileName);
+        
+        $product = new Product();
+        
+        $product->title = $request->title;
+        $product->short_description = $request->short_description;
+        $product->description = $request->description;
+        $product->image = $fileName;
+        $product->price = $request->price;
+        $product->is_active = $request->boolean('is_active');
+        
+        $product->save();
+
+        return redirect()->route('admin.product.index');
     }
 
     /**
@@ -37,7 +64,7 @@ class ProductController extends Controller
      */
     public function show(string $id, UtilsService $utilsService)
     {
-        $product = $utilsService->isProductExistOrActive($id, 'На жаль цей продукт не існує');
+        $product = $this->utilsService->isProductExistOrActive($id, 'На жаль цей продукт не існує');
 
         return view('product')->with('product', $product);
     }
@@ -47,15 +74,31 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        return view('admin.product.form')->with('product', $product);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-        //
+        $product->title = $request->title;
+        $product->short_description = $request->short_description;
+        $product->description = $request->description;
+        
+        $product->price = $request->price;
+        $product->is_active = $request->boolean('is_active');
+
+        if($request->hasFile('image')){
+            $fileName = Str::uuid()->toString() . '.' . $request->image->extension();
+            $request->image->storeAs('public/images', $fileName);
+            Storage::delete('public/images/' . $product->image);
+            $product->image = $fileName;
+        }
+
+        $product->update();
+
+        return redirect()->route('admin.product.index');
     }
 
     /**
@@ -63,6 +106,9 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        Storage::delete('public/images/' . $product->image);
+        $product->delete();
+
+        return redirect()->route('admin.product.index');
     }
 }

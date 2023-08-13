@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row align-items-center">
         <div class="col-lg-4">
-            <img src="https://www.anycubic.com/cdn/shop/products/AnycubicKobra_7_1800x1800.jpg?v=1684458780" class="card-img-top" alt="...">
+            <img src="{{Storage::url('images/' . $product->image)}}" class="card-img-top">
         </div>
         <div class="col-lg-8">
             <h2>{{$product->title}}</h2>
