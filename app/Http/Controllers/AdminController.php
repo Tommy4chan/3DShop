@@ -25,11 +25,7 @@ class AdminController extends Controller
 
     public function makeAdmin(User $user)
     {
-        if ($user->isAdmin()) {
-            $user->is_admin = 0;
-        } else {
-            $user->is_admin = 1;
-        }
+        $user->is_admin = !$user->is_admin;
 
         $user->update();
 
