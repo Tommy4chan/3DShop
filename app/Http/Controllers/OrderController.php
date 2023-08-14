@@ -10,12 +10,12 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-
     private UtilsService $utilsService;
+
     private OrdersService $orderService;
 
     private $statuses = ['Нова', 'Обробляється', 'Готова до доставки', 'Доставляється', 'Доставлено', 'Завершена', 'Скасована'];
- 
+
     public function __construct(UtilsService $utilsService, OrdersService $orderService)
     {
         $this->utilsService = $utilsService;
