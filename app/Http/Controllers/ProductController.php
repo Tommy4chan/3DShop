@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
+use App\Services\ProductsService;
 use Illuminate\Http\Request;
 use App\Services\UtilsService;
 use Illuminate\Support\Facades\Storage;
@@ -13,10 +14,12 @@ class ProductController extends Controller
 {
 
     private UtilsService $utilsService;
+    private ProductsService $productsService;
  
-    public function __construct(UtilsService $utilsService)
+    public function __construct(UtilsService $utilsService, ProductsService $productsService)
     {
         $this->utilsService = $utilsService;
+        $this->productsService = $productsService;
     }
 
     /**
@@ -42,19 +45,7 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        $fileName = Str::uuid()->toString() . '.' . $request->image->extension();
-        $request->image->storeAs('public/images', $fileName);
-        
-        $product = new Product();
-        
-        $product->title = $request->title;
-        $product->short_description = $request->short_description;
-        $product->description = $request->description;
-        $product->image = $fileName;
-        $product->price = $request->price;
-        $product->is_active = $request->boolean('is_active');
-        
-        $product->save();
+        $this->productsService->store($request);
 
         return redirect()->route('admin.product.index');
     }
@@ -62,7 +53,7 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id, UtilsService $utilsService)
+    public function show(string $id)
     {
         $product = $this->utilsService->isProductExistOrActive($id, 'На жаль цей продукт не існує');
 
@@ -72,8 +63,10 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product)
+    public function edit(string $id)
     {
+        $product = $this->utilsService->isProductExistOrActive($id, 'На жаль цей продукт не існує');
+
         return view('admin.product.form')->with('product', $product);
     }
 
@@ -82,21 +75,7 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, Product $product)
     {
-        $product->title = $request->title;
-        $product->short_description = $request->short_description;
-        $product->description = $request->description;
-        
-        $product->price = $request->price;
-        $product->is_active = $request->boolean('is_active');
-
-        if($request->hasFile('image')){
-            $fileName = Str::uuid()->toString() . '.' . $request->image->extension();
-            $request->image->storeAs('public/images', $fileName);
-            Storage::delete('public/images/' . $product->image);
-            $product->image = $fileName;
-        }
-
-        $product->update();
+        $this->productsService->update($request, $product);
 
         return redirect()->route('admin.product.index');
     }
@@ -106,8 +85,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        Storage::delete('public/images/' . $product->image);
-        $product->delete();
+        $this->productsService->destroy($product);
 
         return redirect()->route('admin.product.index');
     }
