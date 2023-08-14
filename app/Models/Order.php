@@ -10,40 +10,19 @@ class Order extends Model
     use HasFactory;
 
     public function product(){
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class)->withTrashed();
     }
 
-    public function scopeNew($query){
-        return $query->where('status', 0);
+    public function newOrdersCount(){
+        return $this->where('status', 0)->count();
     }
 
-    public function scopeInProgress($query){
-        return $query->whereBetween('status', [1, 4]);
+    public function inProgressOrdersCount(){
+        return $this->whereBetween('status', [1, 4])->count();
     }
 
-    public function status()
+    public function status($statuses)
     {
-        switch($this->status){
-             case '0':
-                return 'Нова';
-                break;
-             case '1':
-                return 'Обробляється';
-                break;
-            case '2':
-                return 'Готова до доставки';
-                break;
-            case '3':
-                return 'Доставляється';
-                break;
-            case '4':
-                return 'Доставлено';
-                break;    
-            case '5':
-                return 'Завершена';
-                break; 
-            default:     
-                return 'Скасована';
-        }
+        return $statuses[$this->status];
     }
 }

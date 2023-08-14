@@ -4,8 +4,8 @@
 <div class="container">
     <div class="row">
         @foreach($products as $product)
-        <div class="col-lg-3">
-            <div class="card">
+        <div class="col-lg-3" style="margin: 10px 0;">
+            <div class="card" style="height: 100%;">
                 <img src="{{Storage::url('images/' . $product->image)}}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">{{$product->title}}</h5>
@@ -17,6 +17,9 @@
             </div>
         </div>
         @endforeach
+    </div>
+    <div style="margin-top: 20px;">
+        {!! $products->links() !!}
     </div>
 </div>
 @endsection

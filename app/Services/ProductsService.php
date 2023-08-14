@@ -48,7 +48,7 @@ class ProductsService {
 
     public function destroy(Product $product)
     {
-        Storage::delete('public/images/' . $product->image);
+        //Storage::delete('public/images/' . $product->image);
         $product->delete();
     }
 }

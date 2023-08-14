@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -37,8 +38,25 @@ Route::prefix('order')->group(function () {
 Route::prefix('admin')->group(function () {
     Route::name('admin.')->group(function () {
         Route::middleware(['is_admin'])->group(function () {
-            Route::get('/', [AdminController::class, 'home'])->name('home');
+            Route::controller(AdminController::class)->group(function () {
+                Route::get('/', 'home')->name('home');
 
+                Route::prefix('user')->group(function () {
+                    Route::name('user.')->group(function () {
+                        Route::get('/', 'userIndex')->name('index');
+                        Route::get('/make/admin/{user}', 'makeAdmin')->name('make.admin');
+                    });
+                });
+            });
+
+            Route::prefix('order')->group(function () {
+                Route::name('order.')->group(function () {
+                    Route::controller(OrderController::class)->group(function () {
+                        Route::get('/', 'index')->name('index');
+                        Route::put('/{order}', 'update')->name('update');
+                    });
+                });
+            });
             Route::prefix('product')->group(function () {
                 Route::name('product.')->group(function () {
                     Route::controller(ProductController::class)->group(function () {

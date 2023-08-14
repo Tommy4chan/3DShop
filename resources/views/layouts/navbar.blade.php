@@ -13,12 +13,6 @@
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="{{route('home')}}">Головна</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">Категорії</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">Про нас</a>
-                </li>
             </ul>
 
             <!-- Right Side Of Navbar -->
@@ -27,13 +21,13 @@
             @guest
                 @if (Route::has('login'))
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                    <a class="nav-link" href="{{ route('login') }}">Увійти</a>
                 </li>
                 @endif
 
                 @if (Route::has('register'))
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                    <a class="nav-link" href="{{ route('register') }}">Зареєструватись</a>
                 </li>
                 @endif
             @else
@@ -45,8 +39,8 @@
                         @admin
                         <li><a class="dropdown-item" href="{{route('admin.home')}}">Адмін Панель</a></li>
                         <li><a class="dropdown-item" href="{{route('admin.product.index')}}">Продукти</a></li>
-                        <li><a class="dropdown-item" href="#">Заявки</a></li>
-                        <li><a class="dropdown-item" href="#">Користувачі</a></li>
+                        <li><a class="dropdown-item" href="{{route('admin.order.index')}}">Заявки</a></li>
+                        <li><a class="dropdown-item" href="{{route('admin.user.index')}}">Користувачі</a></li>
                         <li><hr class="dropdown-divider"></li>
                         @endadmin
                         <li><a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();

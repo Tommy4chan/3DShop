@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class MainController extends Controller
 {
     public function home(){
-        $products = Product::active()->latest()->get();
+        $products = Product::active()->latest()->paginate(20);
 
         return view('home')->with('products', $products);
     }

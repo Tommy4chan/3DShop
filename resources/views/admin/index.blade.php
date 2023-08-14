@@ -10,9 +10,9 @@
                     <h3 class="card-title" style="margin-bottom: 0;">Продукти</h3>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Загальна кількість: {{$products->all}}</li>
-                    <li class="list-group-item">Активні: {{$products->active}}</li>
-                    <li class="list-group-item">Неактивні: {{$products->notActive}}</li>
+                    <li class="list-group-item">Загальна кількість: {{$products->count()}}</li>
+                    <li class="list-group-item">Активні: {{$products->activeProductsCount()}}</li>
+                    <li class="list-group-item">Неактивні: {{$products->notActiveProductsCount()}}</li>
                 </ul>
                 <div class="card-body">
                     <a href="{{route('admin.product.index')}}" class="btn btn-primary">Переглянути всі</a>
@@ -26,12 +26,12 @@
                     <h3 class="card-title" style="margin-bottom: 0;">Заявки</h3>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Загальна кількість: {{$orders->all}}</li>
-                    <li class="list-group-item">Нових: {{$orders->new}}</li>
-                    <li class="list-group-item">В обробці: {{$orders->inProgress}}</li>
+                    <li class="list-group-item">Загальна кількість: {{$orders->count()}}</li>
+                    <li class="list-group-item">Нових: {{$orders->newOrdersCount()}}</li>
+                    <li class="list-group-item">В обробці: {{$orders->inProgressOrdersCount()}}</li>
                 </ul>
                 <div class="card-body">
-                    <a href="#" class="btn btn-primary">Переглянути всі</a>
+                    <a href="{{route('admin.order.index')}}" class="btn btn-primary">Переглянути всі</a>
                 </div>
             </div>
         </div>

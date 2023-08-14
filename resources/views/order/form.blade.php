@@ -23,17 +23,17 @@
                 @csrf
                 <div class="mb-3">
                     <label for="name" class="form-label">Ім'я*</label>
-                    <input type="text" class="form-control" id="name" name="name">
+                    <input type="text" class="form-control" id="name" name="name" value="{{old('name')}}">
                     @include('layouts.error', ['fieldname' => 'name'])
                 </div>
                 <div class="mb-3">
                     <label for="number" class="form-label">Номер телефону*</label>
-                    <input type="tel" class="form-control" id="number" name="number">
+                    <input type="tel" class="form-control" id="number" name="number" value="{{old('number')}}">
                     @include('layouts.error', ['fieldname' => 'number'])
                 </div>
                 <div class="mb-3">
                     <label for="comment" class="form-label">Коментар</label>
-                    <textarea class="form-control" id="comment" style="resize:none" name="comment"></textarea>
+                    <textarea class="form-control" id="comment" style="resize:none" name="comment">{{old('comment')}}</textarea>
                     @include('layouts.error', ['fieldname' => 'comment'])
                 </div>
                 <div class="mb-3">

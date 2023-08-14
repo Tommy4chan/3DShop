@@ -15,6 +15,14 @@ class Product extends Model
         return $query->where('is_active', 1);
     }
 
+    public function activeProductsCount(){
+        return $this->where('is_active', 1)->count();
+    }
+
+    public function notActiveProductsCount(){
+        return $this->where('is_active', 0)->count();
+    }
+
     public function isActive(){
         return $this->is_active === 1;
     }

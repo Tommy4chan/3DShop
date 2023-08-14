@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
@@ -21,8 +22,18 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Paginator::useBootstrapFive();
+
         Blade::if('admin', function(){
             return Auth::check() && Auth::user()->isAdmin();
+        });
+
+        Blade::directive('status', function ($expression) {
+            return "<?php echo {$expression} ? 'Так' : 'Ні' ?>";
+        });
+
+        Blade::directive('comment', function ($expression) {
+            return "<?php echo ({$expression} != null) ? {$expression} : '-' ?>";
         });
     }
 }

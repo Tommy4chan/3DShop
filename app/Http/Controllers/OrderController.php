@@ -13,6 +13,8 @@ class OrderController extends Controller
 
     private UtilsService $utilsService;
     private OrdersService $orderService;
+
+    private $statuses = ['Нова', 'Обробляється', 'Готова до доставки', 'Доставляється', 'Доставлено', 'Завершена', 'Скасована'];
  
     public function __construct(UtilsService $utilsService, OrdersService $orderService)
     {
@@ -25,7 +27,9 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $orders = $this->orderService->index();
+
+        return view('admin.order.index')->with('orders', $orders)->with('statuses', $this->statuses);
     }
 
     /**
@@ -57,7 +61,7 @@ class OrderController extends Controller
     {
         $order = $this->utilsService->isOrderExist($id, 'На жаль не можна переглянути неіснуючу заявку');
 
-        return view('order.show')->with('order', $order)->with('product', $order->product);
+        return view('order.show')->with('order', $order)->with('product', $order->product)->with('statuses', $this->statuses);
     }
 
     /**
@@ -73,7 +77,9 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        //
+        $this->orderService->update($request, $order);
+
+        return redirect()->route('admin.order.index');
     }
 
     /**

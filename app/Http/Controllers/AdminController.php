@@ -4,31 +4,35 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
     public function home(){
-        $productsCount = Product::count();
-        $activeProductsCount = Product::active()->count();
-
-        $ordersCount = Order::count();
-        $newOrdersCount = Order::new()->count();
-        $inProgressOrdersCount = Order::inProgress()->count();
-
-        $products = (object) [
-            'all' => $productsCount, 
-            'active' => $activeProductsCount, 
-            'notActive' => $productsCount - $activeProductsCount
-        ];
-
-        $orders = (object) [
-            'all' => $ordersCount, 
-            'new' => $newOrdersCount, 
-            'inProgress' => $inProgressOrdersCount
-        ];
+        $products = new Product();
+        $orders = new Order();
 
         return view('admin.index')->with('products', $products)->with('orders', $orders);
+    }
+
+    public function userIndex(){
+        $users = User::paginate(20);
+
+        return view('admin.user.index')->with('users', $users);
+    }
+
+    public function makeAdmin(User $user){
+        if($user->isAdmin()){
+            $user->is_admin = 0;
+        }
+        else{
+            $user->is_admin = 1;
+        }
+
+        $user->update();
+
+        return redirect()->route('admin.user.index');
     }
 
 

@@ -6,7 +6,22 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 
 class OrdersService {
- 
+
+    public function index()
+    {
+        $filter = request()->query('filter');
+
+        $orders = Order::latest('id');
+
+        if($filter != null){
+            $orders = $orders->where('status', $filter);
+        }
+
+        $orders = $orders->paginate(25)->withQueryString();
+
+        return $orders;
+    }
+
     public function store(Request $request){
         $order = new Order();
 
@@ -18,5 +33,12 @@ class OrdersService {
         $order->save();
 
         return $order;
+    }
+
+    public function update(Request $request, Order $order)
+    {
+        $order->status = $request->status;
+
+        $order->update();
     }
 }

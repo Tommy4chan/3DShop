@@ -13,8 +13,24 @@
             <p>Номер замовлення: {{$order->id}}</p>
             <p>Ім'я: {{$order->name}}</p>
             <p>Номер: {{$order->number}}</p>
-            <p>Коментар: @if($order->comment != null) {{$order->comment}} @else {{'Відсутній'}} @endif</p>
-            <p>Статус: {{$order->status()}}</p>
+            <p>Коментар: @comment($order->comment)</p>
+            @admin
+                <form method="post" action="{{route('admin.order.update', $order)}}">
+                    @csrf
+                    @method('PUT')
+                    <div class="mb-3" style="width: 250px;">
+                        <label for="status" class="form-label">Статус заявки:</label>
+                        <select class="form-select" name="status" id="status">
+                            @foreach($statuses as $status)
+                            <option value="{{$loop->index}}" @selected($order->status == $loop->index)>{{$status}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Змінити</button>
+                </form>
+            @else
+                <p>Статус: {{$order->status($statuses)}}</p>
+            @endadmin
             <a href="{{route('home')}}" class="btn btn-secondary" style="margin-top: 30px;">Повернутись назад</a>
         </div>
     </div>
