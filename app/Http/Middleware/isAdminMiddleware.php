@@ -16,11 +16,10 @@ class isAdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $user = Auth::user();
-
-        if(!$user->isAdmin()){
+        if(!Auth::check() || !Auth::user()->isAdmin()){
             return redirect()->route('home');
         }
+
         return $next($request);
     }
 }

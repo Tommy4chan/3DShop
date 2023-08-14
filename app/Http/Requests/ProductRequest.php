@@ -31,4 +31,15 @@ class ProductRequest extends FormRequest
             'price' => ['required', 'min:1', 'numeric'],
         ];
     }
+
+    public function attributes(): array
+    {
+        return [
+            'title' => 'назва',
+            'short_description' => 'короткий опис',
+            'description' => 'опис',
+            'image' => 'зображення',
+            'price' => 'ціна'
+        ];
+    }
 }

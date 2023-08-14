@@ -29,4 +29,14 @@ class OrderRequest extends FormRequest
             'product_id' => [new ProductExistAndActiveRule],
         ];
     }
+
+    public function attributes(): array
+    {
+        return [
+            'name' => 'ім\'я',
+            'number' => 'номер телефону',
+            'comment' => 'коментар',
+            'product_id' => 'продукт',
+        ];
+    }
 }
