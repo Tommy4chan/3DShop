@@ -16,7 +16,7 @@ class ProductExistAndActiveRule implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $product = Product::find($value);
-        if ($product == null || !$product->isActive()) {
+        if ($product == null || ! $product->isActive()) {
             $fail('Продукт, який Ви замовляєте не існує');
         }
     }

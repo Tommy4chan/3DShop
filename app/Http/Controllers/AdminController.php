@@ -5,28 +5,29 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    public function home(){
+    public function home()
+    {
         $products = new Product();
         $orders = new Order();
 
         return view('admin.index')->with('products', $products)->with('orders', $orders);
     }
 
-    public function userIndex(){
+    public function userIndex()
+    {
         $users = User::paginate(20);
 
         return view('admin.user.index')->with('users', $users);
     }
 
-    public function makeAdmin(User $user){
-        if($user->isAdmin()){
+    public function makeAdmin(User $user)
+    {
+        if ($user->isAdmin()) {
             $user->is_admin = 0;
-        }
-        else{
+        } else {
             $user->is_admin = 1;
         }
 
@@ -34,6 +35,4 @@ class AdminController extends Controller
 
         return redirect()->route('admin.user.index');
     }
-
-
 }

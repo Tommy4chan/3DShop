@@ -12,7 +12,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    public function isAdmin(){
+    public function isAdmin()
+    {
         return $this->is_admin === 1;
     }
 
@@ -25,7 +26,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'is_admin'
+        'is_admin',
     ];
 
     /**

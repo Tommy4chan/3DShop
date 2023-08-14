@@ -17,12 +17,12 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => '3Д принтер ' . fake()->words(3, true),
+            'title' => '3Д принтер '.fake()->words(3, true),
             'short_description' => fake()->sentence(15),
             'description' => fake()->paragraph(15),
-            'image' => rand(1, 30) . '.jpg',
+            'image' => rand(1, 30).'.jpg',
             'price' => rand(4000, 50000),
-            'is_active' => fake()->boolean(90)
+            'is_active' => fake()->boolean(90),
         ];
     }
 }

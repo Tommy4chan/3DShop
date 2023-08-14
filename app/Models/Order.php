@@ -9,20 +9,23 @@ class Order extends Model
 {
     use HasFactory;
 
-    public function product(){
+    public function product()
+    {
         return $this->belongsTo(Product::class)->withTrashed();
     }
 
-    public function newOrdersCount(){
+    public function newOrdersCount()
+    {
         return $this->where('status', 0)->count();
     }
 
-    public function inProgressOrdersCount(){
+    public function inProgressOrdersCount()
+    {
         return $this->whereBetween('status', [1, 4])->count();
     }
 
     public function status($statuses)
     {
-        return $statuses[$this->status];
+        return $statuses[$this->status] ?? '';
     }
 }

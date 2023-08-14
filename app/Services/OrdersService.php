@@ -5,15 +5,15 @@ namespace App\Services;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
-class OrdersService {
-
+class OrdersService
+{
     public function index()
     {
         $filter = request()->query('filter');
 
         $orders = Order::latest('id');
 
-        if($filter != null){
+        if ($filter != null) {
             $orders = $orders->where('status', $filter);
         }
 
@@ -22,7 +22,8 @@ class OrdersService {
         return $orders;
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $order = new Order();
 
         $order->name = $request->name;

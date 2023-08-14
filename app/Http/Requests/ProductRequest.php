@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class ProductRequest extends FormRequest
 {
@@ -39,7 +37,7 @@ class ProductRequest extends FormRequest
             'short_description' => 'короткий опис',
             'description' => 'опис',
             'image' => 'зображення',
-            'price' => 'ціна'
+            'price' => 'ціна',
         ];
     }
 }

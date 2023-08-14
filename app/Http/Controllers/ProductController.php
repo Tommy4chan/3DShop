@@ -5,17 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use App\Services\ProductsService;
-use Illuminate\Http\Request;
 use App\Services\UtilsService;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-
     private UtilsService $utilsService;
+
     private ProductsService $productsService;
- 
+
     public function __construct(UtilsService $utilsService, ProductsService $productsService)
     {
         $this->utilsService = $utilsService;

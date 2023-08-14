@@ -11,27 +11,33 @@ class Product extends Model
     use HasFactory;
     use SoftDeletes;
 
-    public function scopeActive($query){
+    public function scopeActive($query)
+    {
         return $query->where('is_active', 1);
     }
 
-    public function activeProductsCount(){
+    public function activeProductsCount()
+    {
         return $this->where('is_active', 1)->count();
     }
 
-    public function notActiveProductsCount(){
+    public function notActiveProductsCount()
+    {
         return $this->where('is_active', 0)->count();
     }
 
-    public function isActive(){
+    public function isActive()
+    {
         return $this->is_active === 1;
     }
 
-    public function orders(){
+    public function orders()
+    {
         return $this->hasMany(Order::class);
     }
 
-    public function soldCount(){
+    public function soldCount()
+    {
         return $this->orders->count();
     }
 }
