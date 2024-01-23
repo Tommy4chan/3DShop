@@ -6,7 +6,7 @@
                     <use xlink:href="#bootstrap"></use>
                 </svg>
             </a>
-            <span class="text-muted">© 2023 Anton Panurin</span>
+            <span class="text-muted">© 2024 Anton Panurin</span>
         </div>
     </footer>
 </div>

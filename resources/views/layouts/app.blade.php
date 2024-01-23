@@ -14,6 +14,7 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link rel="icon" href="{{asset('logo.png')}}" type="image/x-icon">
+    <script async src="https://www.google.com/recaptcha/api.js"></script>
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
 </head>

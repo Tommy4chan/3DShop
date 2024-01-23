@@ -40,6 +40,10 @@
                     <input type="hidden" name="product_id" value="{{$product->id}}">
                     @include('layouts.error', ['fieldname' => 'product_id'])
                 </div>
+                <div class="mb-3">
+                    <div class="g-recaptcha mt-4" data-sitekey="{{config('services.recaptcha.key')}}"></div>
+                    @include('layouts.error', ['fieldname' => 'g-recaptcha-response'])
+                </div>
                 <button type="submit" class="btn btn-primary">Створити заявку</button>
             </form>
             <a href="{{route('home')}}" class="btn btn-secondary" style="margin-top: 30px;">Повернутись назад</a>

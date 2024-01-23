@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Rules\ProductExistAndActiveRule;
+use App\Rules\RecaptchaRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class OrderRequest extends FormRequest
@@ -27,6 +28,7 @@ class OrderRequest extends FormRequest
             'number' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:9', 'max:13'],
             'comment' => ['max:256'],
             'product_id' => [new ProductExistAndActiveRule],
+            'g-recaptcha-response' => ['required', new RecaptchaRule],
         ];
     }
 
@@ -37,6 +39,7 @@ class OrderRequest extends FormRequest
             'number' => 'номер телефону',
             'comment' => 'коментар',
             'product_id' => 'продукт',
+            'g-recaptcha-response' => 'рекапча'
         ];
     }
 }
